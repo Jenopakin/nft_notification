@@ -55,7 +55,7 @@ def check_listings_with_selenium():
 
     try:
         # Explicit wait to make sure the listings load
-        WebDriverWait(driver, 10).until(
+        WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.TAG_NAME, "dt"))
         )
     except Exception as e:
