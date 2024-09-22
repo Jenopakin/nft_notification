@@ -23,10 +23,18 @@ jobs:
           pip install beautifulsoup4
           pip install schedule  # All required packages
 
-      - name: Install Chrome
+      - name: Install Chrome and dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
+          sudo apt-get install -y \
+              google-chrome-stable \
+              libappindicator3-1 \
+              fonts-liberation \
+              xdg-utils \
+              libxss1 \
+              libgconf-2-4 \
+              libgbm-dev \
+              libgtk-3-0
 
       - name: Install ChromeDriver
         run: |
