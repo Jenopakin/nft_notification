@@ -38,4 +38,4 @@ jobs:
         env:
           PATH: /usr/local/bin/chromedriver:$PATH  # Ensures ChromeDriver is in PATH
         run: |
-          python3 NFT_notification.py  # Replace with your script's name
+          python3 NFT_notification.py  
