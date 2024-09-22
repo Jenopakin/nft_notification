@@ -2,8 +2,8 @@ name: Run Python Script
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Runs every hour (modify as per your needs)
-  workflow_dispatch:  # Allows manual trigger from the Actions tab
+    - cron: '0 * * * *'  # Runs every hour (modify as needed)
+  workflow_dispatch:  # Allows manual trigger
 
 jobs:
   run_script:
@@ -15,14 +15,27 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'  # Specify Python version
+          python-version: '3.x'
 
       - name: Install dependencies
         run: |
           pip install selenium
           pip install beautifulsoup4
-          pip install schedule  # All required packages
+          pip install schedule
+
+      - name: Install Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+
+      - name: Install ChromeDriver
+        run: |
+          sudo apt-get install -yqq unzip
+          wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE)/chromedriver_linux64.zip
+          unzip /tmp/chromedriver.zip -d /usr/local/bin/
 
       - name: Run the Python script
+        env:
+          PATH: r"D:\มข\compro\mini project\chromedriver-win64\chromedriver.exe"
         run: |
-          python3 NFT_notification.py  # Replace with your script's name
+          python3 NFT_notification.py
