@@ -10,17 +10,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3  # Updated to v3
+        uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v4  # Updated to v4
+        uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
-      - name: Install dependencies
-        run: |
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Install selenium
+        run: pip install selenium  # Add this to install Selenium
 
       - name: Run the Python script
         run: |
-          python3 NFT_notification.py  # Replace with your script's name
+          python3 NFT_notification.py
