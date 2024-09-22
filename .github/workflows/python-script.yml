@@ -2,8 +2,8 @@ name: Run Python Script
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Runs every hour (modify as needed)
-  workflow_dispatch:  # Allows manual trigger
+    - cron: '0 * * * *'  # Runs every hour (adjust as necessary)
+  workflow_dispatch:  # Allows manual trigger from the Actions tab
 
 jobs:
   run_script:
@@ -36,6 +36,6 @@ jobs:
 
       - name: Run the Python script
         env:
-          PATH: r"D:\มข\compro\mini project\chromedriver-win64\chromedriver.exe"
+          PATH: /usr/local/bin/chromedriver:$PATH  # Ensures ChromeDriver is in PATH
         run: |
           python3 NFT_notification.py
