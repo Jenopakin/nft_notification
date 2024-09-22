@@ -1,0 +1,26 @@
+name: Run Python Script
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Runs the script every hour (you can change this)
+  workflow_dispatch:  # Allows manual trigger from the Actions tab
+
+jobs:
+  run_script:
+    runs-on: ubuntu-latest  # Runs on the latest Ubuntu environment
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2  # Pull the code from your repo
+
+      - name: Set up Python
+        uses: actions/setup-python@v2  # Set up Python environment
+        with:
+          python-version: '3.x'  # Specify Python version
+
+      - name: Install dependencies
+        run: |
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run the Python script
+        run: |
+          python3 NFT_notification.py  # Replace with your script's name
