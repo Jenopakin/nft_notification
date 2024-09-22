@@ -36,9 +36,14 @@ is_first_run = True
 
 # Function to fetch data using Selenium with explicit waits
 def check_listings_with_selenium():
-    # Set Chrome options to specify the Chrome binary location
+    # Set Chrome options to specify the Chrome binary location and headless mode
     chrome_options = webdriver.ChromeOptions()
     chrome_options.binary_location = chrome_binary_path
+    chrome_options.add_argument('--headless')  # Run Chrome in headless mode
+    chrome_options.add_argument('--no-sandbox')  # Required for CI environments
+    chrome_options.add_argument('--disable-dev-shm-usage')  # Overcome limited resource problems
+    chrome_options.add_argument('--disable-gpu')  # Disable GPU hardware acceleration
+    chrome_options.add_argument('--window-size=1920x1080')  # Set window size
 
     # Start ChromeDriver with the specified Chrome binary and service
     service = Service(chrome_driver_path)
