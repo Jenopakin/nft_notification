@@ -2,20 +2,20 @@ name: Run Python Script
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Runs the script every hour (you can change this)
+    - cron: '0 * * * *'  # Runs every hour
   workflow_dispatch:  # Allows manual trigger from the Actions tab
 
 jobs:
   run_script:
-    runs-on: ubuntu-latest  # Runs on the latest Ubuntu environment
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2  # Pull the code from your repo
+        uses: actions/checkout@v3  # Updated to v3
 
       - name: Set up Python
-        uses: actions/setup-python@v2  # Set up Python environment
+        uses: actions/setup-python@v4  # Updated to v4
         with:
-          python-version: '3.x'  # Specify Python version
+          python-version: '3.x'
 
       - name: Install dependencies
         run: |
