@@ -11,8 +11,11 @@ import schedule
 import time
 import logging
 
-# Path to your ChromeDriver (update this path based on where you downloaded it)
-chrome_driver_path = r"D:\มข\compro\mini project\chromedriver-win64\chromedriver.exe"
+# Path to ChromeDriver in the GitHub Actions environment
+chrome_driver_path = '/usr/local/bin/chromedriver'
+
+# Chrome binary location in the GitHub Actions environment
+chrome_binary_path = '/usr/bin/google-chrome'
 
 # Marketplace URL
 URL = "https://marketplace.openxswap.exchange/Collection/59144/0x8d95f56b0bac46e8ac1d3a3f12fb1e5bc39b4c0c"
@@ -25,7 +28,7 @@ PASSWORD = "ahrd jkji ylsy kypx"
 # Set up basic logging
 logging.basicConfig(filename='nft_scraper.log', level=logging.INFO)
 
-# Track previously seen listings (e.g., based on Locked Value, Discount, and Locked)
+# Track previously seen listings
 previous_listings = set()
 
 # A flag to check if this is the first run
@@ -33,9 +36,13 @@ is_first_run = True
 
 # Function to fetch data using Selenium with explicit waits
 def check_listings_with_selenium():
-    # Start ChromeDriver
+    # Set Chrome options to specify the Chrome binary location
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.binary_location = chrome_binary_path
+
+    # Start ChromeDriver with the specified Chrome binary and service
     service = Service(chrome_driver_path)
-    driver = webdriver.Chrome(service=service)
+    driver = webdriver.Chrome(service=service, options=chrome_options)
 
     # Navigate to the URL
     driver.get(URL)
@@ -61,7 +68,7 @@ def check_listings_with_selenium():
     locked_values = soup.find_all(lambda tag: tag.name == 'dt' and tag.string and 'ed Value' in tag.string)
     discounts = soup.find_all(lambda tag: tag.name == 'dd' and tag.string and '%' in tag.string)
     locked_amounts = soup.find_all(lambda tag: tag.name == 'dd' and tag.string and 'LYNX' in tag.string)
-    
+
     new_listings = []
     for locked_value, discount, lock_amount in zip(locked_values, discounts, locked_amounts):
         try:
@@ -69,7 +76,7 @@ def check_listings_with_selenium():
             discount_text = discount.get_text().strip()
             lock_amount_text = lock_amount.get_text().strip()
 
-            # Create a unique identifier for the listing (Locked Value + Discount + Locked)
+            # Create a unique identifier for the listing (Locked)
             listing_id = f"{lock_amount_text}"
 
             # If it's the first run, add all listings regardless of whether they were seen before
