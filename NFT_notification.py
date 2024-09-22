@@ -44,6 +44,7 @@ def check_listings_with_selenium():
     chrome_options.add_argument('--disable-dev-shm-usage')  # Overcome limited resource problems
     chrome_options.add_argument('--disable-gpu')  # Disable GPU hardware acceleration
     chrome_options.add_argument('--window-size=1920x1080')  # Set window size
+    chrome_options.add_argument('--remote-debugging-port=9222')  # Prevent DevToolsActivePort error
 
     # Start ChromeDriver with the specified Chrome binary and service
     service = Service(chrome_driver_path)
@@ -105,7 +106,7 @@ def check_listings_with_selenium():
             logging.warning(f"Error parsing listing: {e}")
 
     return new_listings
-
+    
 # Function to send email notification
 def send_email_notification(new_listing):
     subject = "New NFT Listing Alert"
