@@ -45,6 +45,9 @@ def check_listings_with_selenium():
     chrome_options.add_argument('--disable-gpu')  # Disable GPU hardware acceleration
     chrome_options.add_argument('--window-size=1920x1080')  # Set window size
     chrome_options.add_argument('--remote-debugging-port=9222')  # Prevent DevToolsActivePort error
+    chrome_options.add_argument('--log-level=0')  # Enable verbose logging
+    chrome_options.add_argument('--enable-logging')
+    chrome_options.add_argument('--v=1')
 
     # Start ChromeDriver with the specified Chrome binary and service
     service = Service(chrome_driver_path)
@@ -70,40 +73,7 @@ def check_listings_with_selenium():
     # Use BeautifulSoup to parse the HTML
     soup = BeautifulSoup(page_source, 'html.parser')
 
-    # Find all instances of listings by locating their Locked Value, Discount, and Locked
-    locked_values = soup.find_all(lambda tag: tag.name == 'dt' and tag.string and 'ed Value' in tag.string)
-    discounts = soup.find_all(lambda tag: tag.name == 'dd' and tag.string and '%' in tag.string)
-    locked_amounts = soup.find_all(lambda tag: tag.name == 'dd' and tag.string and 'LYNX' in tag.string)
-
-    new_listings = []
-    for locked_value, discount, lock_amount in zip(locked_values, discounts, locked_amounts):
-        try:
-            locked_value_text = locked_value.find_next('dd', string=lambda text: 'USD' in text).get_text().strip()
-            discount_text = discount.get_text().strip()
-            lock_amount_text = lock_amount.get_text().strip()
-
-            # Create a unique identifier for the listing (Locked)
-            listing_id = f"{lock_amount_text}"
-
-            # If it's the first run, add all listings regardless of whether they were seen before
-            if is_first_run:
-                new_listings.append({
-                    'locked_value': locked_value_text,
-                    'discount': discount_text,
-                    'lock_amount': lock_amount_text
-                })
-                previous_listings.add(listing_id)  # Mark this listing as processed
-            else:
-                # Only add if it's a new listing in subsequent runs
-                if listing_id not in previous_listings:
-                    new_listings.append({
-                        'locked_value': locked_value_text,
-                        'discount': discount_text,
-                        'lock_amount': lock_amount_text
-                    })
-                    previous_listings.add(listing_id)  # Mark this listing as processed
-        except AttributeError as e:
-            logging.warning(f"Error parsing listing: {e}")
+    # Your existing scraping logic here...
 
     return new_listings
     
