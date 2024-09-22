@@ -15,7 +15,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'  # Specify Python version
+          python-version: '3.x'
 
       - name: Install dependencies
         run: |
@@ -41,6 +41,11 @@ jobs:
           sudo apt-get install -yqq unzip
           wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE)/chromedriver_linux64.zip
           unzip /tmp/chromedriver.zip -d /usr/local/bin/
+
+      - name: Test Chrome Installation
+        run: |
+          google-chrome --version
+          google-chrome --headless --no-sandbox --disable-gpu --remote-debugging-port=9222 https://www.google.com
 
       - name: Run the Python script
         env:
