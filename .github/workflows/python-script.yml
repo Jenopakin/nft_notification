@@ -8,6 +8,10 @@ on:
 jobs:
   run_script:
     runs-on: ubuntu-latest
+    resources:
+      limits:
+        memory: 4G
+        cpu: 2
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -15,13 +19,13 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'  # Specify Python version
+          python-version: '3.x'
 
       - name: Install dependencies
         run: |
           pip install selenium
           pip install beautifulsoup4
-          pip install schedule  # All required packages
+          pip install schedule
 
       - name: Install Chrome and dependencies
         run: |
@@ -44,6 +48,6 @@ jobs:
 
       - name: Run the Python script
         env:
-          PATH: /usr/local/bin/chromedriver:$PATH  # Ensures ChromeDriver is in PATH
+          PATH: /usr/local/bin/chromedriver:$PATH
         run: |
-          python3 NFT_notification.py  
+          python3 NFT_notification.py
