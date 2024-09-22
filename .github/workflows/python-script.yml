@@ -2,7 +2,7 @@ name: Run Python Script
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Runs every hour
+    - cron: '0 * * * *'  # Runs every hour (modify as per your needs)
   workflow_dispatch:  # Allows manual trigger from the Actions tab
 
 jobs:
@@ -15,11 +15,14 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: '3.x'  # Specify Python version
 
-      - name: Install selenium
-        run: pip install selenium  # Add this to install Selenium
+      - name: Install dependencies
+        run: |
+          pip install selenium
+          pip install beautifulsoup4
+          pip install schedule  # All required packages
 
       - name: Run the Python script
         run: |
-          python3 NFT_notification.py
+          python3 NFT_notification.py  # Replace with your script's name
